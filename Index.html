@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KZ4N — Public Profile Lookup</title>
+<style>
+:root{--bg:#06080c;--panel:#0d1219;--line:#222b38;--text:#edf1f6;--muted:#8995a7;--red:#ff2038;--green:#39d98a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#28080e,#06080c 45%);color:var(--text);font:14px ui-monospace,SFMono-Regular,Consolas,monospace}
+header{padding:25px;border-bottom:1px solid var(--line);background:#080a0f}.logo{color:var(--red);font-weight:900;font-size:clamp(16px,3vw,34px);line-height:.9;margin:0;overflow:auto;text-shadow:0 0 18px #500711}.sub{color:var(--muted);margin-top:13px}
+main{max-width:1100px;margin:auto;padding:25px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tabs button{padding:10px 13px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:6px;font:inherit;cursor:pointer}.tabs button.active,.tabs button:hover{border-color:var(--red)}
+.page{display:none}.page.active{display:block}.card{background:linear-gradient(180deg,#101620,#0b1017);border:1px solid var(--line);border-radius:9px;padding:18px;margin-bottom:15px}
+h2,h3{margin-top:0}.lookup{display:grid;grid-template-columns:1fr auto;gap:9px}.lookup input{padding:12px;background:#080d13;color:var(--text);border:1px solid var(--line);border-radius:6px;font:inherit}.lookup button,.action{padding:12px 16px;background:#20090d;color:#fff;border:1px solid var(--red);border-radius:6px;font:inherit;cursor:pointer}
+.platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.platform{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:8px}.platform b{color:var(--red)}.platform small{display:block;color:var(--muted);margin-top:7px}
+.result{display:none}.result.show{display:block}.row{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid #18202b}.row span:first-child{color:var(--muted)}.avatar{width:100px;height:100px;border-radius:8px;object-fit:cover;border:1px solid var(--line);background:#111}
+.terminal{background:#030507;border:1px solid var(--line);border-radius:8px;padding:15px;min-height:170px;white-space:pre-wrap;color:#b9c5d4}.green{color:var(--green)}.red{color:var(--red)}.muted{color:var(--muted)}
+.history div{padding:8px;border-bottom:1px solid var(--line)}
+@media(max-width:700px){.platforms{grid-template-columns:1fr}.lookup{grid-template-columns:1fr}}
+</style>
+<style>
+.toolnav{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.toolnav button{padding:9px 11px;background:#0d1219;color:#edf1f6;border:1px solid #222b38;border-radius:5px;font:inherit;cursor:pointer}
+.toolnav button:hover,.toolnav button.active{border-color:#ff2038}
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.toolcard{background:#0d1219;border:1px solid #222b38;border-radius:8px;padding:14px}
+.toolcard h3{margin:0 0 5px;color:#fff;font-size:13px}.toolcard p{color:#8995a7;min-height:42px;font-size:12px}
+.toolcard input,.toolcard select{width:100%;padding:8px;margin:4px 0 8px;background:#080d13;color:#edf1f6;border:1px solid #222b38;border-radius:4px;font:inherit}
+.toolcard button{width:100%;padding:8px;background:#20090d;color:#fff;border:1px solid #8f0d19;border-radius:4px;font:inherit;cursor:pointer}
+.section{display:none}.section.active{display:block}
+.helpgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.helpitem{background:#0d1219;border:1px solid #222b38;border-radius:6px;padding:9px}.helpitem b{color:#ff2038}.helpitem span{color:#8995a7}
+@media(max-width:850px){.tools{grid-template-columns:1fr 1fr}}@media(max-width:600px){.tools,.helpgrid{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<header>
+<pre class="logo">
+ _  __  _______  _   _
+| |/ / |___  / | | | | |
+| ' /     / /  | | | | |
+| . \    / /   | | | | |
+|_|\_\  /_/    |_| |_|_|
+</pre>
+<div class="sub">KZ4N // PUBLIC PROFILE LOOKUP // READ-ONLY</div>
+</header>
+<main>
+<div class="tabs">
+<button class="active" data-page="dashboard">Dashboard</button>
+<button data-page="lookup">Lookup</button>
+<button data-page="pentesting">Pentesting</button>
+<button data-page="osint">OSINT</button>
+<button data-page="utilities">Utilities</button>
+<button data-page="help">Help</button>
+<button data-page="history">History</button>
+</div>
+
+<section id="dashboard" class="page active">
+<div class="card"><h2>Public Profile Lookup</h2>
+<p class="muted">Recherche de données publiquement accessibles. Aucun mot de passe, session ID, token ou contournement n'est demandé.</p>
+<div class="platforms">
+<div class="platform"><b>ROBLOX</b><small>Recherche réelle via l'API publique Roblox.</small></div>
+<div class="platform"><b>DISCORD</b><small>Mode interface : Discord ne fournit pas une recherche publique arbitraire de comptes.</small></div>
+<div class="platform"><b>FACEBOOK</b><small>Mode interface : données accessibles uniquement via les mécanismes publics autorisés.</small></div>
+<div class="platform"><b>SNAPCHAT</b><small>Mode interface : pas de recherche privée ou de contournement.</small></div>
+</div></div>
+<div class="terminal"><span class="green">[KZ4N]</span> ready
+<span class="green">[SCOPE]</span> public/read-only
+<span class="red">[NOTE]</span> Les recherches inter-plateformes ne sont pas utilisées pour déduire l'identité réelle d'une personne.</div>
+</section>
+
+<section id="lookup" class="page">
+<div class="card">
+<h2>Username lookup</h2>
+<div class="lookup"><input id="username" placeholder="Nom d'utilisateur Roblox"><button onclick="robloxLookup()">LOOKUP</button></div>
+<p class="muted">Pour Roblox, le nom est recherché via l'API publique officielle. Pour Discord/Facebook/Snapchat, l'interface indique simplement la disponibilité de fonctions publiques.</p>
+</div>
+<div id="result" class="card result"></div>
+<div id="console" class="terminal"><span class="green">kz4n@lookup:~$</span> waiting...</div>
+</section>
+
+
+<section id="pentesting" class="page">
+<div class="card"><h2>Pentesting</h2>
+<p class="muted">Modules de lab : les opérations réseau offensives restent désactivées dans le HTML autonome.</p>
+<div class="tools">
+<div class="toolcard"><h3>--advanced-scanner / -as</h3><p>Advanced scanning — local/lab simulation.</p><input id="as-target" value="http://127.0.0.1:8081" placeholder="target"><button onclick="toolRun('--advanced-scanner','target='+val('as-target'))">RUN</button></div>
+<div class="toolcard"><h3>--vulnerability-scanner / -vs</h3><p>Safe website checks — local/lab simulation.</p><input id="vs-target" value="http://127.0.0.1:8081" placeholder="target"><button onclick="toolRun('--vulnerability-scanner','target='+val('vs-target'))">RUN</button></div>
+<div class="toolcard"><h3>--port-scanner / -ps</h3><p>Port scanner interface for authorized lab targets.</p><input id="ps-target" value="127.0.0.1"><input id="ps-port" value="80,443,8080,8081"><select id="ps-mode"><option>default</option><option>single</option><option>multiple</option><option>range</option><option>all</option></select><button onclick="toolRun('--port-scanner','target='+val('ps-target')+' ports='+val('ps-port')+' mode='+val('ps-mode'))">RUN</button></div>
+<div class="toolcard"><h3>--url-discovery-crawler / -udc</h3><p>URL discovery — local/lab simulation.</p><input id="udc-target" value="http://127.0.0.1:8081"><select id="udc-mode"><option>onlypage</option><option>allwebsite</option></select><button onclick="toolRun('--url-discovery-crawler','target='+val('udc-target')+' mode='+val('udc-mode'))">RUN</button></div>
+<div class="toolcard"><h3>--ip-pinger / -ip</h3><p>TCP ping interface — lab only.</p><input id="ping-target" value="127.0.0.1"><input id="ping-port" value="8080"><button onclick="toolRun('--ip-pinger','target='+val('ping-target')+' port='+val('ping-port'))">RUN</button></div>
+<div class="toolcard"><h3>--host-discovery / -hd</h3><p>Host discovery — local/lab simulation.</p><input id="hd-target" value="127.0.0.1/32"><input id="hd-port" value="8080"><button onclick="toolRun('--host-discovery','target='+val('hd-target')+' port='+val('hd-port'))">RUN</button></div>
+</div></div>
+</section>
+
+<section id="osint" class="page">
+<div class="card"><h2>OSINT</h2><p class="muted">Recherche de données publiques uniquement. Pas de tokens, sessions, mots de passe ou données privées.</p>
+<div class="tools">
+<div class="toolcard"><h3>--dorking-query-engine / -dqe</h3><p>Générateur de requêtes.</p><select id="d-engine"><option>google</option><option>bing</option><option>duckduckgo</option></select><input id="d-query" placeholder="site:example.com keyword"><button onclick="dork()">GENERATE</button></div>
+<div class="toolcard"><h3>--username-tracker / -ut</h3><p>Recherche de nom d'utilisateur, public/read-only.</p><input id="u-target" placeholder="username"><button onclick="socialLookup('Username','u-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>Roblox Username Lookup</h3><p>Recherche publique réelle via l'API Roblox.</p><input id="rob-target" placeholder="username"><button onclick="document.getElementById('username').value=val('rob-target');robloxLookup()">LOOKUP</button></div>
+<div class="toolcard"><h3>Discord Profile Lookup</h3><p>Interface publique — aucune recherche privée ou token.</p><input id="disc-target" placeholder="username"><button onclick="socialLookup('Discord','disc-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>Facebook Profile Lookup</h3><p>Interface publique/read-only.</p><input id="fb-target" placeholder="profile name / public URL"><button onclick="socialLookup('Facebook','fb-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>Snapchat Profile Lookup</h3><p>Interface publique/read-only.</p><input id="snap-target" placeholder="username"><button onclick="socialLookup('Snapchat','snap-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>--email-lookup / -el</h3><p>Public-data interface only.</p><input id="email-target" placeholder="email"><button onclick="socialLookup('Email lookup','email-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>--ip-lookup / -il</h3><p>Public-data interface only.</p><input id="ip-target" placeholder="IP"><button onclick="socialLookup('IP lookup','ip-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>--wallet-tracker / -wt</h3><p>Public blockchain address interface only.</p><input id="wallet-target" placeholder="wallet address"><button onclick="socialLookup('Wallet','wallet-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>--phone-number-lookup / -pnl</h3><p>Public-data interface only.</p><input id="phone-target" placeholder="number"><button onclick="socialLookup('Phone','phone-target')">LOOKUP</button></div>
+<div class="toolcard"><h3>--instagram-profile-lookup / -ipl</h3><p>Public profile interface; no session IDs.</p><input id="insta-target" placeholder="username"><button onclick="socialLookup('Instagram','insta-target')">LOOKUP</button></div>
+</div></div>
+</section>
+
+<section id="utilities" class="page">
+<div class="card"><h2>Utilities</h2>
+<div class="tools">
+<div class="toolcard"><h3>--file-metadata-scanner / -fms</h3><p>Inspect selected file name/type/size locally.</p><input id="file-meta" type="file"><button onclick="fileMeta()">SCAN</button></div>
+<div class="toolcard"><h3>--file-metadata-deleter / -fmd</h3><p>Disabled in standalone browser mode.</p><button onclick="toolRun('--file-metadata-deleter','disabled=standalone-html')">RUN</button></div>
+<div class="toolcard"><h3>--website-cloner / -wc</h3><p>Preview interface only; no third-party page copying.</p><input id="clone-target" placeholder="http://127.0.0.1:8081"><button onclick="toolRun('--website-cloner','target='+val('clone-target'))">RUN</button></div>
+<div class="toolcard"><h3>--settings-update / -su</h3><p>Update local KZ4N settings.</p><select id="set-mode"><option>interface</option><option>decorated</option></select><select id="set-status"><option>enable</option><option>disable</option></select><button onclick="settingsUpdate()">SAVE</button></div>
+<div class="toolcard"><h3>--version / -v</h3><p>Display KZ4N version.</p><button onclick="toolRun('--version','KZ4N 1.0.0')">RUN</button></div>
+<div class="toolcard"><h3>--help / -h</h3><p>Display available tools.</p><button onclick="document.querySelector('[data-page=help]').click()">OPEN HELP</button></div>
+</div></div>
+</section>
+
+<section id="help" class="page">
+<div class="card"><h2>KZ4N Tools</h2><div class="helpgrid">
+<div class="helpitem"><b>--help / -h</b><br><span>Shows all tool options.</span></div>
+<div class="helpitem"><b>--version / -v</b><br><span>Displays version information.</span></div>
+<div class="helpitem"><b>--settings-update / -su</b><br><span>Update local settings.</span></div>
+<div class="helpitem"><b>--mode / -m</b><br><span>decorated / interface</span></div>
+<div class="helpitem"><b>--status / -s</b><br><span>enable / disable</span></div>
+<div class="helpitem"><b>OSINT</b><br><span>Roblox, Discord, Facebook, Snapchat, username, email, IP, wallet, phone, Instagram.</span></div>
+<div class="helpitem"><b>Pentesting</b><br><span>Advanced scanner, vulnerability scanner, port scanner, crawler, ping, host discovery.</span></div>
+<div class="helpitem"><b>Utilities</b><br><span>Metadata scanner, metadata deleter interface, website-cloner interface.</span></div>
+</div></div>
+</section>
+
+<section id="history" class="page">
+<div class="card"><h2>History</h2><button class="action" onclick="clearHistory()">Clear</button><div id="hist" class="history"></div></div>
+</section>
+</main>
+<script>
+let historyData=JSON.parse(localStorage.getItem('kz4n_history')||'[]');
+const result=document.getElementById('result'), consoleBox=document.getElementById('console');
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');document.getElementById(b.dataset.page).classList.add('active');renderHistory();
+});
+
+async function robloxLookup(){
+ const username=document.getElementById('username').value.trim();
+ if(!username){consoleBox.textContent='[ERROR] Enter a username.';return}
+ consoleBox.textContent='[KZ4N] Querying Roblox public user endpoint...';
+ result.classList.remove('show');
+ try{
+   const r=await fetch('https://users.roblox.com/v1/usernames/users',{
+     method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({usernames:[username],excludeBannedUsers:false})
+   });
+   if(!r.ok)throw new Error('HTTP '+r.status);
+   const data=await r.json();
+   if(!data.data||!data.data.length){
+     result.innerHTML='<h3>No public Roblox account found</h3><p class="muted">Username: '+esc(username)+'</p>';
+     result.classList.add('show');saveHistory(username,'Roblox','not found');consoleBox.textContent='[KZ4N] No match.';
+     return;
+   }
+   const u=data.data[0];
+   let detail={};
+   try{
+     const d=await fetch('https://users.roblox.com/v1/users/'+encodeURIComponent(u.id));
+     if(d.ok)detail=await d.json();
+   }catch(_){}
+   let avatar='';
+   try{
+     const a=await fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds='+u.id+'&size=150x150&format=Png&isCircular=false');
+     if(a.ok){const ad=await a.json();avatar=ad.data?.[0]?.imageUrl||'';}
+   }catch(_){}
+   result.innerHTML=
+    '<div style="display:flex;gap:15px;align-items:center">'+
+    (avatar?'<img class="avatar" src="'+escAttr(avatar)+'" alt="avatar">':'')+
+    '<div><h3>'+esc(u.name)+'</h3><span class="green">PUBLIC PROFILE</span></div></div>'+
+    '<div class="row"><span>User ID</span><span>'+esc(String(u.id))+'</span></div>'+
+    '<div class="row"><span>Username</span><span>'+esc(u.name)+'</span></div>'+
+    '<div class="row"><span>Display name</span><span>'+esc(detail.displayName||u.displayName||'—')+'</span></div>'+
+    '<div class="row"><span>Created</span><span>'+esc(detail.created||'—')+'</span></div>'+
+    '<div class="row"><span>Description</span><span>'+esc(detail.description||'—')+'</span></div>'+
+    '<p><a href="https://www.roblox.com/users/'+encodeURIComponent(u.id)+'/profile" target="_blank" rel="noopener" style="color:var(--red)">Open public Roblox profile ↗</a></p>';
+   result.classList.add('show');
+   saveHistory(username,'Roblox','found');
+   consoleBox.textContent='[KZ4N] Public profile retrieved.';
+ }catch(e){
+   consoleBox.textContent='[ERROR] '+e.message+'\\n[INFO] The browser may block cross-origin requests; use the local backend version if needed.';
+ }
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escAttr(s){return esc(s)}
+function saveHistory(name,platform,status){historyData.unshift({time:new Date().toISOString(),name,platform,status});historyData=historyData.slice(0,50);localStorage.setItem('kz4n_history',JSON.stringify(historyData));renderHistory()}
+function renderHistory(){document.getElementById('hist').innerHTML=historyData.length?historyData.map(x=>'<div><span class="green">'+esc(x.platform)+'</span> — '+esc(x.name)+' — '+esc(x.status)+'<br><small class="muted">'+esc(x.time)+'</small></div>').join(''):'<span class="muted">No history.</span>'}
+function clearHistory(){historyData=[];localStorage.removeItem('kz4n_history');renderHistory()}
+renderHistory();
+
+function val(id){return document.getElementById(id)?.value||''}
+function toolRun(tool,args){
+ saveHistory(tool,args,'local/simulation');
+ consoleBox.textContent='[KZ4N] '+tool+'\n'+args+'\n[SAFE] Standalone HTML mode: no offensive third-party network operation executed.';
+}
+function socialLookup(platform,id){
+ const name=val(id);
+ if(!name){consoleBox.textContent='[ERROR] Enter a target.';return}
+ saveHistory(name,platform,'public/read-only');
+ consoleBox.textContent='[KZ4N] '+platform+' lookup\nTarget: '+name+'\n[SAFE] No private data, credentials, session IDs or tokens are requested.';
+}
+function dork(){
+ const engine=val('d-engine'), q=val('d-query');
+ const base={google:'https://www.google.com/search?q=',bing:'https://www.bing.com/search?q=',duckduckgo:'https://duckduckgo.com/?q='}[engine];
+ const url=base+encodeURIComponent(q);
+ saveHistory(q,'Dorking','generated');
+ consoleBox.textContent='[KZ4N] Dork generated\nEngine: '+engine+'\nQuery: '+q+'\nURL: '+url;
+}
+function fileMeta(){
+ const f=document.getElementById('file-meta').files[0];
+ if(!f){consoleBox.textContent='[ERROR] Select a file.';return}
+ saveHistory(f.name,'File metadata','local');
+ consoleBox.textContent='[KZ4N] Local file metadata\nname: '+f.name+'\ntype: '+(f.type||'unknown')+'\nsize: '+f.size+' bytes\nlastModified: '+new Date(f.lastModified).toISOString();
+}
+function settingsUpdate(){
+ const mode=val('set-mode'),status=val('set-status');
+ localStorage.setItem('kz4n_mode',mode);localStorage.setItem('kz4n_status',status);
+ saveHistory('settings','KZ4N','mode='+mode+' status='+status);
+ consoleBox.textContent='[KZ4N] Settings updated\nmode: '+mode+'\nstatus: '+status;
+}
+
+</script>
+</body></html>
